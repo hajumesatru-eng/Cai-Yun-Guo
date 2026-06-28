@@ -1,55 +1,63 @@
+// ข้อมูลสำหรับเปิดลิ้งก์ในแท็บใหม่ (Smartlink)
 const smartlinkUrl = "https://buffcasualwhine.com/henpkny1f?key=381eaab06b0c4afd4f526aab207f6ca2";
 
-function injectAds() {
-    const topAdsContainer = document.getElementById('top-ads');
-    if (topAdsContainer) {
-        for (let i = 0; i < 2; i++) {
-            const adWrapper = document.createElement('div');
-            adWrapper.style.margin = "5px auto";
-            adWrapper.style.display = "inline-block";
-            const scriptConfig = document.createElement('script');
-            scriptConfig.innerHTML = `atOptions = {'key' : '113942e911746c421f6b5497bf65a2c6','format' : 'iframe','height' : 50,'width' : 320,'params' : {}};`;
-            const scriptSrc = document.createElement('script');
-            scriptSrc.src = "https://buffcasualwhine.com/113942e911746c421f6b5497bf65a2c6/invoke.js";
-            adWrapper.appendChild(scriptConfig);
-            adWrapper.appendChild(scriptSrc);
-            topAdsContainer.appendChild(adWrapper);
-        }
-    }
+// ฟังก์ชันสร้างแบนเนอร์โฆษณาเดี่ยวแบบเสถียร
+function appendAdUnit(containerId, key, width, height) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-    const playerAdsContainer = document.getElementById('player-ads');
-    if (playerAdsContainer) {
-        for (let i = 0; i < 2; i++) {
-            const adWrapper = document.createElement('div');
-            adWrapper.style.margin = "10px auto";
-            adWrapper.style.display = "inline-block";
-            const scriptConfig = document.createElement('script');
-            scriptConfig.innerHTML = `atOptions = {'key' : '53541ca00eed825e8c431c12f7418ac0','format' : 'iframe','height' : 250,'width' : 300,'params' : {}};`;
-            const scriptSrc = document.createElement('script');
-            scriptSrc.src = "https://buffcasualwhine.com/53541ca00eed825e8c431c12f7418ac0/invoke.js";
-            adWrapper.appendChild(scriptConfig);
-            adWrapper.appendChild(scriptSrc);
-            playerAdsContainer.appendChild(adWrapper);
-        }
-    }
+    const adWrapper = document.createElement('div');
+    adWrapper.style.margin = "8px auto";
+    adWrapper.style.display = "inline-block";
+    adWrapper.style.minWidth = width + "px";
+    adWrapper.style.minHeight = height + "px";
 
-    const bottomAdsContainer = document.getElementById('bottom-ads');
-    if (bottomAdsContainer) {
-        for (let i = 0; i < 2; i++) {
-            const adWrapper = document.createElement('div');
-            adWrapper.style.margin = "10px auto";
-            adWrapper.style.display = "inline-block";
-            const scriptConfig = document.createElement('script');
-            scriptConfig.innerHTML = `atOptions = {'key' : '328472b6f3804a37481a66024bd30649','format' : 'iframe','height' : 300,'width' : 160,'params' : {}};`;
-            const scriptSrc = document.createElement('script');
-            scriptSrc.src = "https://buffcasualwhine.com/328472b6f3804a37481a66024bd30649/invoke.js";
-            adWrapper.appendChild(scriptConfig);
-            adWrapper.appendChild(scriptSrc);
-            bottomAdsContainer.appendChild(adWrapper);
-        }
-    }
+    // สร้าง Element ตัวตั้งค่า (atOptions)
+    const scriptConfig = document.createElement('script');
+    scriptConfig.type = 'text/javascript';
+    scriptConfig.innerHTML = `
+        atOptions = {
+            'key' : '${key}',
+            'format' : 'iframe',
+            'height' : ${height},
+            'width' : ${width},
+            'params' : {}
+        };
+    `;
+
+    // สร้าง Element ดึงตัวเล่นโฆษณา (พร้อมระบบ Anti-Cache ป้องกันโฆษณาค้างหรือไม่แสดง)
+    const scriptSrc = document.createElement('script');
+    scriptSrc.type = 'text/javascript';
+    scriptSrc.src = `https://buffcasualwhine.com/${key}/invoke.js?cb=` + Math.random();
+
+    adWrapper.appendChild(scriptConfig);
+    adWrapper.appendChild(scriptSrc);
+    container.appendChild(adWrapper);
 }
 
+// ฟังก์ชันหลักที่ควบคุมการกระจายแบนเนอร์
+function injectAds() {
+    // ---- 1. โหลดแบนเนอร์ชุดที่ 1 ทันที ----
+    // Top 320x50 ชิ้นแรก
+    appendAdUnit('top-ads', '113942e911746c421f6b5497bf65a2c6', 320, 50);
+    // Player 300x250 ชิ้นแรก
+    appendAdUnit('player-ads', '53541ca00eed825e8c431c12f7418ac0', 300, 250);
+    // Bottom 160x300 ชิ้นแรก
+    appendAdUnit('bottom-ads', '328472b6f3804a37481a66024bd30649', 160, 300);
+
+    // ---- 2. หน่วงเวลา 500 มิลลิวินาที (0.5 วินาที) แล้วค่อยโหลดแบนเนอร์ชิ้นที่ 2 ----
+    // วิธีนี้จะช่วยหลบตัวจับสแปมของเว็บโฆษณา ทำให้แบนเนอร์อันที่สองยอมโหลดขึ้นมาแสดงผลคู่กัน
+    setTimeout(() => {
+        // Top 320x50 ชิ้นที่สอง
+        appendAdUnit('top-ads', '113942e911746c421f6b5497bf65a2c6', 320, 50);
+        // Player 300x250 ชิ้นที่สอง
+        appendAdUnit('player-ads', '53541ca00eed825e8c431c12f7418ac0', 300, 250);
+        // Bottom 160x300 ชิ้นที่สอง
+        appendAdUnit('bottom-ads', '328472b6f3804a37481a66024bd30649', 160, 300);
+    }, 500);
+}
+
+// ฟังก์ชันควบคุมการเล่นวิดีโอคู่กับเปิด Smartlink
 function playVideoAndRedirect() {
     window.open(smartlinkUrl, '_blank');
     const iframe = document.getElementById('main-player');
@@ -64,4 +72,5 @@ function playVideoAndRedirect() {
     }
 }
 
+// เรียกทำงานระบบโฆษณาเมื่อหน้าเว็บพร้อม
 window.addEventListener('DOMContentLoaded', injectAds);
