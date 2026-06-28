@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://the-legend-of-rosy-clouds-ep1-36-thend.pages.dev/sitemap.xml
