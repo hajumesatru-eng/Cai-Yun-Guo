@@ -5,15 +5,19 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #141414; color: #ffffff; font-family: sans-serif; padding: 5px; text-align: center; overflow: hidden; }
-        .ad-zone { text-align: center; margin: 5px 0; clear: both; }
+        .ad-zone { text-align: center; margin: 0 auto; clear: both; display: none; } /* Default: sembunyikan semua zona */
         .ad-unit { display: inline-block; margin: 5px; vertical-align: top; background: transparent; }
         h3 { color: #444; font-size: 10px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Tampilkan zona secara spesifik berdasarkan class aktif */
+        body.show-top #zone-top { display: block; }
+        body.show-mid #zone-mid { display: block; }
+        body.show-bottom #zone-bottom { display: block; }
     </style>
 </head>
 <body>
 
-    <!-- === ZONE 1: BANNER ATAS (320x50 - 2 Slot Berdampingan) === -->
-    <div class="ad-zone">
+    <div class="ad-zone" id="zone-top">
         <h3>Sponsored Ads</h3>
         <div class="ad-unit" style="width:320px; height:50px;">
             <script type="text/javascript">
@@ -29,8 +33,7 @@
         </div>
     </div>
 
-    <!-- === ZONE 2: BANNER TENGAH (300x250 - 2 Slot Berdampingan) === -->
-    <div class="ad-zone" style="margin-top: 10px;">
+    <div class="ad-zone" id="zone-mid">
         <div class="ad-unit" style="width:300px; height:250px;">
             <script type="text/javascript">
                 atOptions = { 'key' : '53541ca00eed825e8c431c12f7418ac0', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
@@ -45,8 +48,7 @@
         </div>
     </div>
 
-    <!-- === ZONE 3: BANNER BAWAH (160x300 - 2 Slot Berdampingan) === -->
-    <div class="ad-zone" style="margin-top: 10px;">
+    <div class="ad-zone" id="zone-bottom">
         <div class="ad-unit" style="width:160px; height:300px;">
             <script type="text/javascript">
                 atOptions = { 'key' : '328472b6f3804a37481a66024bd30649', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
@@ -60,6 +62,21 @@
             <script type="text/javascript" src="https://buffcasualwhine.com/328472b6f3804a37481a66024bd30649/invoke.js"></script>
         </div>
     </div>
+
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const position = urlParams.get('pos');
+        if (position === 'top') {
+            document.body.classList.add('show-top');
+        } else if (position === 'mid') {
+            document.body.classList.add('show-mid');
+        } else if (position === 'bottom') {
+            document.body.classList.add('show-bottom');
+        } else {
+            // Jika tidak ada parameter, tampilkan semua sebagai fallback
+            document.body.classList.add('show-top', 'show-mid', 'show-bottom');
+        }
+    </script>
 
 </body>
 </html>
