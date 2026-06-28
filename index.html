@@ -121,7 +121,38 @@
     background: transparent;
     pointer-events: auto; /* Memblokir klik ke arah iframe di bawahnya */
 }
-        
+
+        /* Lapisan Penutup Rekomendasi di Akhir Video */
+.end-screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #141414; /* Menutup dengan warna hitam background web Anda */
+    z-index: 15; /* Di atas iframe dan di atas player-overlay */
+    display: none; /* Sembunyikan dulu, muncul lewat JS */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tombol Putar Ulang */
+.replay-btn {
+    background-color: #e50914; /* Warna merah ala Netflix */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: 0.2s;
+}
+.replay-btn:hover {
+    background-color: #ff1e27;
+    transform: scale(1.05);
+}
     </style>
 </head>
 <body>
@@ -142,9 +173,16 @@
             
             <!-- VIDEO PLAYER -->
            <div class="player-wrapper">
+    <!-- Pelindung Atas (Mencegah Klik Judul) -->
     <div class="player-overlay"></div>
     
-    <iframe id="main-player" src="https://www.youtube.com/embed/VIDEO_ID?enablejsapi=1&modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- Kode Baru: Layar Penutup saat Video Selesai (Menutupi Rekomendasi) -->
+    <div id="end-screen" class="end-screen-overlay">
+        <button onclick="restartVideo()" class="replay-btn">🔄 Replay</button>
+    </div>
+    
+    <!-- Tag Iframe YouTube Player -->
+    <iframe id="main-player" src="https://www.youtube.com/embed/NKhhOhCM35o?enablejsapi=1&modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
             <!-- === BANNER TENGAH (300x250) === -->
@@ -222,5 +260,38 @@
             }
         }
     </script>
+    <!-- Load API YouTube resmi -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+    var player;
+    
+    // Fungsi otomatis dari YouTube ketika API siap
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('main-player', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // Deteksi perubahan status video
+    function onPlayerStateChange(event) {
+        // YT.PlayerState.ENDED artinya video telah selesai diputar (durasi habis)
+        if (event.data == YT.PlayerState.ENDED) {
+            // Tampilkan layar hitam untuk memblokir video rekomendasi YouTube
+            document.getElementById('end-screen').style.display = 'flex';
+        }
+    }
+
+    // Fungsi ketika tombol 'Putar Ulang' diklik
+    function restartVideo() {
+        // Sembunyikan kembali layar hitam
+        document.getElementById('end-screen').style.display = 'none';
+        // Putar ulang video dari awal
+        player.seekTo(0);
+        player.playVideo();
+    }
+</script>
 </body>
 </html>
