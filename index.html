@@ -98,6 +98,30 @@
         .synopsis { margin-top: 15px; padding-top: 15px; border-top: 1px solid #333; line-height: 1.7; }
         
         footer { text-align: center; padding: 20px; color: #555; margin-top: 40px; border-top: 1px solid #222; font-size: 0.9rem; }
+
+        .player-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    margin-bottom: 25px;
+}
+
+/* Kode Baru: Perisai Transparan */
+.player-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Melindungi area atas tempat judul & logo channel berada */
+    z-index: 10;
+    background: transparent;
+    pointer-events: auto; /* Memblokir klik ke arah iframe di bawahnya */
+}
+        
     </style>
 </head>
 <body>
@@ -117,9 +141,11 @@
         <div class="main-content" style="margin-top: 20px;">
             
             <!-- VIDEO PLAYER -->
-            <div class="player-wrapper">
-                <iframe id="main-player" src="https://www.youtube.com/embed/NKhhOhCM35o?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+           <div class="player-wrapper">
+    <div class="player-overlay"></div>
+    
+    <iframe id="main-player" src="https://www.youtube.com/embed/NKhhOhCM35o?enablejsapi=1&modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
             <!-- === BANNER TENGAH (300x250) === -->
             <div class="ads-block">
