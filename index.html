@@ -101,13 +101,37 @@
 
         .player-wrapper {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* Rasio 16:9 */
     height: 0;
     overflow: hidden;
     background-color: #000;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     margin-bottom: 25px;
+}
+
+/* Pelindung area atas (Judul) */
+.player-overlay-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 10;
+    background: transparent;
+    pointer-events: auto;
+}
+
+/* BARU: Memblokir klik tombol "Video Lainnya" dan "Logo YouTube" */
+.player-overlay-bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40%; /* Menutupi 40% area kanan bawah dari player */
+    height: 50px; /* Tinggi bar kontrol YouTube hitam di bagian bawah */
+    z-index: 10; /* Berada di atas kontrol asli YouTube */
+    background: transparent; /* Tidak terlihat oleh mata pengunjung */
+    pointer-events: auto; /* Mengunci klik agar tertahan di lapisan ini */
 }
 
 /* Kode Baru: Perisai Transparan */
@@ -173,15 +197,10 @@
             
             <!-- VIDEO PLAYER -->
            <div class="player-wrapper">
-    <!-- Pelindung Atas (Mencegah Klik Judul) -->
-    <div class="player-overlay"></div>
+    <div class="player-overlay-top"></div>
     
-    <!-- Kode Baru: Layar Penutup saat Video Selesai (Menutupi Rekomendasi) -->
-    <div id="end-screen" class="end-screen-overlay">
-        <button onclick="restartVideo()" class="replay-btn">🔄 Replay</button>
-    </div>
+    <div class="player-overlay-bottom"></div>
     
-    <!-- Tag Iframe YouTube Player -->
     <iframe id="main-player" src="https://www.youtube.com/embed/NKhhOhCM35o?enablejsapi=1&modestbranding=1&rel=0&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
