@@ -29,7 +29,7 @@
     <meta name="twitter:description" content="ซีรีส์จีน บุปผาคู่บัลลังก์ Ep.1-36 ซับไทย พากย์ไทย แนว โรแมนติก ดราม่า การเมืองย้อนยุค">
     <meta name="twitter:image" content="https://image.tmdb.org/t/p/original/jdXP1dQPnexq2ANn4neyCpUV7mV.jpg">
 
-    <!-- === GOOGLE STRUCTURED DATA / SCHEMA MARKUP (Sangat Penting untuk SEO) === -->
+    <!-- === GOOGLE STRUCTURED DATA / SCHEMA MARKUP === -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -50,22 +50,44 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #141414; color: #ffffff; line-height: 1.6; padding-bottom: 30px; }
         .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
         
-        /* Iframe Ad Container Styling */
-        .ads-container { width: 100%; border: none; overflow: hidden; background: transparent; display: block; margin: 0 auto; }
+        /* --- PERBAIKAN UTAMA: Blok Pengaman Iklan --- */
+        .ads-block {
+            display: block;
+            width: 100%;
+            margin: 20px auto;
+            text-align: center;
+            clear: both;
+            overflow: hidden;
+            background-color: #1a1a1a; /* Memberi warna latar belakang area iklan agar rapi saat loading */
+            border-radius: 6px;
+        }
+        .ads-container { 
+            width: 100%; 
+            border: none; 
+            overflow: hidden; 
+            background: transparent; 
+            display: block; 
+            margin: 0 auto;
+        }
+        
+        /* Tinggi rigid/pasti untuk masing-masing slot agar tidak melorot/menumpuk */
+        #ads-top { height: 90px; max-height: 100px; }
+        #ads-middle { height: 280px; max-height: 300px; }
+        #ads-bottom { height: 320px; max-height: 350px; }
         
         header { background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,1) 100%); padding: 25px 0; text-align: center; border-bottom: 1px solid #222; }
         h1 { font-size: 1.8rem; color: #e50914; margin: 10px 0; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
         
-        .player-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background-color: #000; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.8); margin-bottom: 15px; }
+        .player-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background-color: #000; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.8); margin-bottom: 25px; }
         .player-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        .episode-section { background-color: #1f1f1f; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .episode-section { background-color: #1f1f1f; padding: 20px; border-radius: 8px; margin: 25px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .episode-section h2 { font-size: 1.4rem; margin-bottom: 15px; border-left: 4px solid #e50914; padding-left: 10px; color: #fff; }
         .episode-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
         .btn-ep { background-color: #333; color: #fff; border: 1px solid #444; padding: 12px 10px; text-align: center; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.2s ease; }
         .btn-ep:hover { background-color: #e50914; border-color: #e50914; transform: scale(1.05); }
         
-        .series-info { background-color: #1f1f1f; padding: 25px; border-radius: 8px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .series-info { background-color: #1f1f1f; padding: 25px; border-radius: 8px; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .info-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
         @media(min-width: 768px) { .info-grid { grid-template-columns: 260px 1fr; } }
         .poster img { width: 100%; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -80,8 +102,10 @@
 </head>
 <body>
 
-    <!-- === BANNER ATAS (320x50 - Diambil dari ads.html) === -->
-    <iframe src="ads.html" class="ads-container" style="height: 110px;" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+    <!-- === BANNER ATAS (320x50) === -->
+    <div class="ads-block">
+        <iframe src="ads.html" id="ads-top" class="ads-container" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+    </div>
 
     <header>
         <div class="container">
@@ -97,8 +121,10 @@
                 <iframe id="main-player" src="https://www.youtube.com/embed/NKhhOhCM35o?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-            <!-- === BANNER TENGAH (300x250 - Diambil dari ads.html) === -->
-            <iframe src="ads.html" class="ads-container" style="height: 290px;" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            <!-- === BANNER TENGAH (300x250) === -->
+            <div class="ads-block">
+                <iframe src="ads.html" id="ads-middle" class="ads-container" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            </div>
 
             <!-- DAFTAR TOMBOL EPISODE -->
             <section class="episode-section">
@@ -112,7 +138,7 @@
                 </div>
             </section>
 
-            <!-- INFORMASI KONTEN (Penting untuk meningkatkan peringkat SEO Google) -->
+            <!-- INFORMASI KONTEN -->
             <section class="series-info">
                 <div class="info-grid">
                     <div class="poster">
@@ -134,8 +160,10 @@
                 </div>
             </section>
 
-            <!-- === BANNER BAWAH (160x300 - Diambil dari ads.html) === -->
-            <iframe src="ads.html" class="ads-container" style="height: 340px;" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            <!-- === BANNER BAWAH (160x300 / 300x250) === -->
+            <div class="ads-block">
+                <iframe src="ads.html" id="ads-bottom" class="ads-container" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            </div>
 
         </div>
     </main>
